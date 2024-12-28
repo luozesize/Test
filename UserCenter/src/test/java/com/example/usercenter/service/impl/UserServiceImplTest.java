@@ -1,6 +1,5 @@
 package com.example.usercenter.service.impl;
 
-import com.example.usercenter.domain.User;
 import com.example.usercenter.service.UserService;
 import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
@@ -15,11 +14,9 @@ class UserServiceImplTest {
 
     @Test
     public void test() throws Exception {
-        String userName = "luozesix";
+        String userAccount = "luozesi";
         String password = "123456798";
-
-        User user = service.userLogin(userName, password);
-        System.out.println(user);
+        service.userRegister(userAccount,password,password);
 
     }
 

@@ -1,7 +1,9 @@
 package com.example.usercenter.service;
 
+
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.usercenter.domain.User;
+import com.example.usercenter.model.domain.User;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
 * @author Administrator
@@ -10,6 +12,7 @@ import com.example.usercenter.domain.User;
  */
 public interface UserService extends IService<User> {
 
-    long userRegister(String userName, String password, String checkPassword) throws Exception;
-    User userLogin(String userName, String password) throws Exception;
+
+    Long userRegister(String userAccount, String password, String checkPassword) throws Exception;
+    User userLogin(String userAccount, String password , HttpServletRequest httpServletRequest) throws Exception;
 }

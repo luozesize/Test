@@ -1,23 +1,27 @@
 package com.example.usercenter.service.impl;
-import java.util.Base64;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.regex.Pattern;
+
+
+
+
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.example.usercenter.domain.User;
-import com.example.usercenter.service.UserService;
 import com.example.usercenter.mapper.UserMapper;
+import com.example.usercenter.model.domain.User;
+import com.example.usercenter.service.UserService;
 import jakarta.annotation.Resource;
+import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.util.Base64;
+import java.util.Date;
+import java.util.regex.Pattern;
+
+import static com.example.usercenter.constant.UserConstant.USER_LOGIN_STATE;
 
 /**
 * @author Administrator
@@ -31,25 +35,26 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Resource
     private UserMapper userMapper;
 
+
     @Override
-    public long userRegister(String userName, String password, String checkPassword) throws Exception{
+    public Long userRegister(String userAccount, String password, String checkPassword) throws Exception{
 
         //密码和校验码相同
         if (!StringUtils.equals(password,checkPassword)){
             System.out.println("密码和校验码不同");
-            return -1;
+            return -1L;
         }
 
-        if (!checkMassage(userName,password)){
+        if (!checkMassage(userAccount,password)){
             System.out.println("用户名和密码校验不通过");
 
-            return -1;
+            return -1L;
         }
 
-       if (getUser(userName) != null){
+       if (getUser(userAccount) != null){
            System.out.println("用户已存在");
 
-           return -1;
+           return -1L;
        }
 
 
@@ -57,8 +62,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         password = getEncryptMassage(password);
         User user = new User();
 
-        user.setUserName(userName);
-        user.setUserAccount("");
+        user.setUserName("");
+        user.setUserAccount(userAccount);
         user.setAvatarUrl("");
         user.setGender(0);
         user.setUserPassWord(password);
@@ -71,12 +76,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
         userMapper.insert(user);
 
-        return 0;
+        return null;
     }
 
     @Override
-    public User userLogin(String userName, String password) throws Exception {
-        if (!checkMassage(userName,password)){
+    public User userLogin(String userAccount, String password, HttpServletRequest httpServletRequest) throws Exception {
+        if (!checkMassage(userAccount,password)){
             System.out.println("用户名和密码校验不通过");
 
             return null;
@@ -85,7 +90,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
 
 
-        User user = getUser(userName);
+        User user = getUser(userAccount);
         if (user == null){
             System.out.println("用户不存在");
 
@@ -108,7 +113,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         user.setPhone("");
         user.setEmail("");
         user.setUpdateTime(new Date());
-
+        httpServletRequest.getSession().setAttribute(USER_LOGIN_STATE,user);
         return user;
     }
 

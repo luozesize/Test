@@ -1,18 +1,14 @@
-package com.example.usercenter.domain;
+package com.example.usercenter.model.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 
 /**
  * 
- * &#064;TableName  user
+ * @TableName user
  */
 @TableName(value ="user")
 @Data
@@ -76,9 +72,14 @@ public class User implements Serializable {
     /**
      * 是否删除(0-否)
      */
+    @TableLogic
     private Integer isDelete;
 
-    @Serial
+    /**
+     * o-普通用户，1-管理员
+     */
+    private Integer userRole;
+
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 }
