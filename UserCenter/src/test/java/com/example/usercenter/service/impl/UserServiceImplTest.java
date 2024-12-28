@@ -17,7 +17,7 @@ class UserServiceImplTest {
         String userName = "luozesi";
         String password = "123456798";
 
-        service.userRegister(userName,password);
+        service.userRegister(userName,password,password);
     }
 
 }

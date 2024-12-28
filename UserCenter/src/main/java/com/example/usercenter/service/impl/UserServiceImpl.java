@@ -6,6 +6,7 @@ import com.example.usercenter.domain.User;
 import com.example.usercenter.service.UserService;
 import com.example.usercenter.mapper.UserMapper;
 import jakarta.annotation.Resource;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 /**
@@ -21,7 +22,12 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     private UserMapper userMapper;
 
     @Override
-    public long userRegister(String userName, String password) {
+    public long userRegister(String userName, String password , String checkPassword) {
+
+        //密码和校验码相同
+        if (!StringUtils.equals(password,checkPassword)){
+            return -1;
+        }
         User user = new User();
         user.setUserName(userName);
         user.setUserAccount("");

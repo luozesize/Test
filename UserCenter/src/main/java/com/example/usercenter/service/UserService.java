@@ -9,6 +9,6 @@ import com.example.usercenter.domain.User;
 * &#064;createDate  2024-12-28 08:46:47
  */
 public interface UserService extends IService<User> {
-    public long userRegister(String userName,String password);
 
+    long userRegister(String userName, String password, String checkPassword);
 }
