@@ -10,5 +10,6 @@ import com.example.usercenter.domain.User;
  */
 public interface UserService extends IService<User> {
 
-    long userRegister(String userName, String password, String checkPassword);
+    long userRegister(String userName, String password, String checkPassword) throws Exception;
+    User userLogin(String userName, String password) throws Exception;
 }
